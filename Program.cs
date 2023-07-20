@@ -1,5 +1,4 @@
 ﻿using Calculator;
-using Calculator.Results;
 using Newtonsoft.Json;
 
 var showTokens = false;
