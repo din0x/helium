@@ -1,14 +1,14 @@
 ﻿using Calculator.Results;
 
-namespace Calculator.Expresstions;
+namespace Calculator.Expressions;
 
-public class Binary : Expression
+public class BinaryExpression : Expression
 {
     public readonly BinaryOperator Operator;
     public readonly Expression Left;
     public readonly Expression Right;
 
-    public Binary(BinaryOperator @operator, Expression left,  Expression right)
+    public BinaryExpression(BinaryOperator @operator, Expression left,  Expression right)
     {
         Operator = @operator;
         Left = left;

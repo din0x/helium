@@ -1,12 +1,12 @@
 ﻿using Calculator.Results;
 
-namespace Calculator.Expresstions;
+namespace Calculator.Expressions;
 
-public class Absolute : Expression
+public class AbsoluteValue : Expression
 {
     public Expression Expr;
 
-    public Absolute(Expression expr)
+    public AbsoluteValue(Expression expr)
     {
         Expr = expr;
     }

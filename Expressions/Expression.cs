@@ -1,6 +1,6 @@
 ﻿using Calculator.Results;
 
-namespace Calculator.Expresstions;
+namespace Calculator.Expressions;
 
 public abstract class Expression
 {

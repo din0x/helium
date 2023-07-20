@@ -1,12 +1,12 @@
 ﻿using Calculator.Results;
 
-namespace Calculator.Expresstions;
+namespace Calculator.Expressions;
 
-public class Number : Expression
+public class NumberLiteral : Expression
 {
     public readonly double Value;
 
-    public Number(double value)
+    public NumberLiteral(double value)
     {
         Value = value;
     }

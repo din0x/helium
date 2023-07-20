@@ -1,4 +1,4 @@
-﻿namespace Calculator.Expresstions;
+﻿namespace Calculator.Expressions;
 
 public enum BinaryOperator
 {

@@ -1,13 +1,13 @@
 ﻿using Calculator.Results;
 
-namespace Calculator.Expresstions;
+namespace Calculator.Expressions;
 
-public class Unary : Expression
+public class UnaryExpression : Expression
 {
     public UnaryOperator Operator;
     public Expression Expr;
 
-    public Unary(UnaryOperator @operator, Expression expr)
+    public UnaryExpression(UnaryOperator @operator, Expression expr)
     {
         Operator = @operator;
         Expr = expr;

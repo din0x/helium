@@ -1,8 +1,8 @@
 ﻿using Calculator.Results;
 
-namespace Calculator.Expresstions;
+namespace Calculator.Expressions;
 
-public class Invalid : Expression
+public class InvalidExpression : Expression
 {
     public override Result Evaluate()
     {   

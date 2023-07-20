@@ -60,11 +60,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Apps\\Me\\Calculator\\Calculator.csproj",
+      "projectUniqueName": "D:\\Apps\\Me\\advanced-calculator\\Calculator.csproj",
       "projectName": "Calculator",
-      "projectPath": "D:\\Apps\\Me\\Calculator\\Calculator.csproj",
+      "projectPath": "D:\\Apps\\Me\\advanced-calculator\\Calculator.csproj",
       "packagesPath": "C:\\Users\\super\\.nuget\\packages\\",
-      "outputPath": "D:\\Apps\\Me\\Calculator\\obj\\",
+      "outputPath": "D:\\Apps\\Me\\advanced-calculator\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\super\\AppData\\Roaming\\NuGet\\NuGet.Config",

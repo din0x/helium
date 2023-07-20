@@ -39,6 +39,11 @@ while (true)
     }
 
     var parser = new Parser(lexer.Tokens);
+    if (parser.Invalid)
+    {
+        ResultLogger.LogError("Invalid math expression.");
+        continue;
+    }
 
     if (showAST)
     {
@@ -55,13 +60,7 @@ while (true)
     try
     {
         var result = parser.Expr.Evaluate();
-        Console.Write("< ");
-
-        if (result is Undefined)
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-
-        Console.WriteLine(result);
-        Console.ForegroundColor = ConsoleColor.Gray;
+        ResultLogger.Log(result);
     } 
     catch (NotImplementedException)
     {

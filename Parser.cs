@@ -1,13 +1,14 @@
-﻿using Calculator.Expresstions;
+﻿using Calculator.Expressions;
 
 namespace Calculator;
 
 public class Parser
 {
     public Expression Expr { get; private set; }
-
+    public bool Invalid { get; private set; }
     public Parser(Token[] tokens)
     {
+        Invalid = false;
         _tokens = new List<Token>(tokens);
         Expr = Parse();
     }
@@ -40,7 +41,7 @@ public class Parser
 
             var right = ParseMultiplicative();
 
-            left = new Binary(op, left, right);
+            left = new BinaryExpression(op, left, right);
         }
 
         return left;
@@ -63,7 +64,7 @@ public class Parser
 
             var right = ParsePow();
 
-            left = new Binary(op, left, right);
+            left = new BinaryExpression(op, left, right);
         }
 
         return left;
@@ -79,7 +80,7 @@ public class Parser
 
             var right = ParseUnary();
 
-            left =  new Binary(BinaryOperator.Pow, left, right);
+            left =  new BinaryExpression(BinaryOperator.Pow, left, right);
         }
 
         return left;
@@ -98,7 +99,7 @@ public class Parser
         var op = opmap[Eat().Value];
         var left = ParseImplicitMultipication();
 
-        return new Unary(op, left);
+        return new UnaryExpression(op, left);
     }
 
     private Expression ParseImplicitMultipication()
@@ -109,7 +110,7 @@ public class Parser
             || At().Type == TokenType.Number
             || At().Type == TokenType.OpenParen)
         {
-            left = new Binary(BinaryOperator.Multiply, left, ParseFunction());
+            left = new BinaryExpression(BinaryOperator.Multiply, left, ParseFunction());
         }
 
         return left;
@@ -147,7 +148,7 @@ public class Parser
                     args.Add(Parse());
                 }
                 if (At().Type != TokenType.CloseParen)
-                    return new Invalid();
+                    return new InvalidExpression();
             }
             else
             {
@@ -157,7 +158,7 @@ public class Parser
             Expression fn = new Function(name, args.ToArray(), @base);
 
             if (exp is not null)
-                fn = new Binary(BinaryOperator.Pow, fn, exp);
+                fn = new BinaryExpression(BinaryOperator.Pow, fn, exp);
 
             return fn;
         }
@@ -172,7 +173,7 @@ public class Parser
         if (At().Value == "!")
         {
             Eat();
-            expr = new Unary(UnaryOperator.Factorial, expr);
+            expr = new UnaryExpression(UnaryOperator.Factorial, expr);
         }
 
         return expr;
@@ -184,7 +185,7 @@ public class Parser
 
         if (At().Type == TokenType.Number)
         {
-            result = new Number(double.Parse(Eat().Value));
+            result = new NumberLiteral(double.Parse(Eat().Value));
         }
         else if (At().Type == TokenType.Symbol)
         {
@@ -196,7 +197,7 @@ public class Parser
             var expr = Parse();
 
             if (At().Type != TokenType.CloseParen)
-                return new Invalid();
+                return new InvalidExpression();
 
             Eat();
             result = expr;
@@ -206,14 +207,15 @@ public class Parser
             Eat();
             var expr = Parse();
             if (At().Type != TokenType.Pipe)
-                return new Invalid();
+                return new InvalidExpression();
             Eat();
-            result = new Absolute(expr);
+            result = new AbsoluteValue(expr);
         }
 
         else
         {
-            return new Invalid();
+            Invalid = true;
+            return new InvalidExpression();
         }
 
         return result;

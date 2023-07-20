@@ -1,6 +1,6 @@
 ﻿using Calculator.Results;
 
-namespace Calculator.Expresstions;
+namespace Calculator.Expressions;
 
 public class Function : Expression
 {
@@ -61,10 +61,10 @@ public class Function : Expression
 
     private static readonly Dictionary<string, Expression> _functions = new() 
     {
-        { "log", new Invalid() },
-        { "sin", new Invalid() },
-        { "cos", new Invalid() },
-        { "tan", new Invalid() },
-        { "ln", new Invalid() },
+        { "log", new InvalidExpression() },
+        { "sin", new InvalidExpression() },
+        { "cos", new InvalidExpression() },
+        { "tan", new InvalidExpression() },
+        { "ln", new InvalidExpression() },
     };
 }

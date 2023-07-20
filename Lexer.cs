@@ -70,6 +70,11 @@ public class Lexer
 
         if (at is '+' or '-' or '*' or '/' or '%' or '^' or '!')
         {
+            if (at == '%')
+            {
+                ResultLogger.LogWarning("Assuming '%' is referring to math.");
+            }
+
             return new Token(TokenType.Operator, Eat().ToString());
         }
 
