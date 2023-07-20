@@ -13,6 +13,6 @@ public class Token
 
     public override string ToString()
     {
-        return $"{Type, -10} {Value}";
+        return $"{Type,-10} {Value}";
     }
 }

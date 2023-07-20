@@ -61,6 +61,10 @@ public class Lexer
         {
             symbol += Eat();
         }
+
+        if (symbol == "mod")
+            return new Token(TokenType.Operator, symbol);
+
         return new Token(TokenType.Symbol, symbol);
     }
 
