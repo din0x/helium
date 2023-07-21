@@ -17,10 +17,21 @@ public class Parser
 
     private Expression Parse()
     {
-        return ParseBinary();
+        var expr = ParseExpression();
+        if (NotEof)
+        {
+            Invalid = true;
+            return new InvalidExpression();
+        }
+        return  expr;
+    }
+    
+    private Expression ParseExpression()
+    {
+        return ParseBinaryExpression();
     }
 
-    private Expression ParseBinary()
+    private Expression ParseBinaryExpression()
     {
         return ParseAdditive();
     }
@@ -29,7 +40,7 @@ public class Parser
     {
         var left = ParseMultiplicative();
 
-        while ((At().Value == "+" || At().Value == "-") && NotEOF)
+        while ((At().Value == "+" || At().Value == "-") && NotEof)
         {
             var opmap = new Dictionary<string, BinaryOperator>()
             {
@@ -51,7 +62,7 @@ public class Parser
     {
         var left = ParsePow();
 
-        while ((At().Value == "*" || At().Value == "/" || At().Value == "%") && NotEOF)
+        while ((At().Value == "*" || At().Value == "/" || At().Value == "%") && NotEof)
         {
             var opmap = new Dictionary<string, BinaryOperator>()
             {
@@ -74,7 +85,7 @@ public class Parser
     {
         var left = ParseUnary();
 
-        while (At().Value == "^" && NotEOF)
+        while (At().Value == "^" && NotEof)
         {
             Eat();
 
@@ -141,18 +152,18 @@ public class Parser
             if (At().Type == TokenType.OpenParen)
             {
                 Eat();
-                args.Add(Parse());
+                args.Add(ParseExpression());
                 while (At().Type == TokenType.Comma)
                 {
                     Eat();
-                    args.Add(Parse());
+                    args.Add(ParseExpression());
                 }
                 if (At().Type != TokenType.CloseParen)
                     return new InvalidExpression();
             }
             else
             {
-                args.Add(Parse());
+                args.Add(ParseExpression());
             }
 
             Expression fn = new Function(name, args.ToArray(), @base);
@@ -194,7 +205,7 @@ public class Parser
         else if (At().Type == TokenType.OpenParen)
         {
             Eat();
-            var expr = Parse();
+            var expr = ParseExpression();
 
             if (At().Type != TokenType.CloseParen)
                 return new InvalidExpression();
@@ -205,7 +216,7 @@ public class Parser
         else if (At().Type == TokenType.Pipe)
         {
             Eat();
-            var expr = Parse();
+            var expr = ParseExpression();
             if (At().Type != TokenType.Pipe)
                 return new InvalidExpression();
             Eat();
@@ -221,11 +232,11 @@ public class Parser
         return result;
     }
 
-    private bool NotEOF => _tokens.Count > 0 && _tokens[0].Type != TokenType.End;
+    private bool NotEof => _tokens.Count > 0 && _tokens[0].Type != TokenType.End;
     
     private Token At()
     {
-        if (NotEOF)
+        if (NotEof)
             return _tokens[0];
         return new Token(TokenType.End, "");
     }
@@ -233,7 +244,7 @@ public class Parser
     private Token Eat()
     {
         var at = At();
-        if (NotEOF)
+        if (NotEof)
             _tokens.RemoveAt(0);
         
         return at;

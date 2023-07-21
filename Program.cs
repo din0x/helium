@@ -2,7 +2,9 @@
 using Newtonsoft.Json;
 
 var showTokens = false;
-var showAST = false;
+var showAst = false;
+
+Console.ForegroundColor = ConsoleColor.Gray;
 
 while (true)
 {
@@ -14,12 +16,12 @@ while (true)
         showTokens = !showTokens;
         continue;
     }
-    else if (input == "ast")
+    if (input == "ast")
     {
-        showAST = !showAST;
+        showAst = !showAst;
         continue;
     }
-    else if (input == "clear")
+    if (input == "clear")
     {
         Console.Clear();
         continue;
@@ -44,7 +46,7 @@ while (true)
         continue;
     }
 
-    if (showAST)
+    if (showAst)
     {
         var settings = new JsonSerializerSettings()
         {

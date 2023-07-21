@@ -20,6 +20,6 @@ public class Symbol : Expression
         if (Name == "infinity")
             return Infinity.PositiveInfinity;
 
-        throw new NotImplementedException();
+        return Undefined.Instance;
     }
 }

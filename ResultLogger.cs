@@ -7,7 +7,7 @@ internal static class ResultLogger
     public static void Log(Result result)
     {
         var str = result.ToString();
-        Console.Write("> ");
+        Console.Write("< ");
         RawLog(str, result is Undefined ? ConsoleColor.DarkGray : ConsoleColor.Gray);
     }
 

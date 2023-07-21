@@ -16,7 +16,7 @@ public class Lexer
     private void Tokenize()
     {
         var tokens = new List<Token>();
-        while (NotEOF)
+        while (NotEof)
         {
             var tok = Number();
             if (tok.Type != TokenType.Empty)
@@ -30,15 +30,19 @@ public class Lexer
         bool AtNumber()
         {
             var atbyte = (byte)At();
-            return atbyte > 47 && atbyte < 58;
+            return atbyte is > 47 and < 58;
         }
 
         if (!AtNumber()) 
             return Symbol();
 
         string number = "";
-        while ((AtNumber() || At() == '.') && NotEOF)
+        var usedDot = false;
+        while ((AtNumber() || (!usedDot && At() == '.')) && NotEof)
         {
+            if (At() == '.')
+                usedDot = true;
+            
             number += Eat();
         }
 
@@ -57,7 +61,7 @@ public class Lexer
             return Operator();
 
         string symbol = "";
-        while (AtChar() && NotEOF)
+        while (AtChar() && NotEof)
         {
             symbol += Eat();
         }
@@ -121,11 +125,11 @@ public class Lexer
         return new Token(TokenType.None, "");
     }
 
-    private bool NotEOF => _text.Length != 0;
+    private bool NotEof => _text.Length != 0;
 
     private char At()
     {
-        if (NotEOF)
+        if (NotEof)
             return _text[0];
 
         return '\0';
@@ -135,7 +139,7 @@ public class Lexer
     {
         var at = At();
 
-        if (NotEOF)
+        if (NotEof)
             _text = _text[1..];
 
         return at;
