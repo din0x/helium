@@ -17,28 +17,6 @@ public class Function : Expression
 
     public override Result Evaluate()
     {
-        if (Name == "log")
-        {
-            var result = Args[0].Evaluate();
-
-            if (result is Infinity)
-                return Infinity.PositiveInfinity;
-
-            else if (result is DecimalValue d)
-                return new DecimalValue(Math.Log(d.Value, (Base?.Evaluate() as DecimalValue)?.Value ?? 10));
-        }
-
-        if (Name == "ln")
-        {
-            var result = Args[0].Evaluate();
-
-            if (result is Infinity)
-                return Infinity.PositiveInfinity;
-
-            else if (result is DecimalValue d)
-                return new DecimalValue(Math.Log(d.Value));
-        }
-
         if (Args[0].Evaluate() is DecimalValue value)
         {
             if (Name == "sin")
@@ -56,10 +34,10 @@ public class Function : Expression
 
     public static bool IsFunction(string name)
     {
-        return _functions.ContainsKey(name);
+        return Functions.ContainsKey(name);
     }
 
-    private static readonly Dictionary<string, Expression> _functions = new() 
+    private static readonly Dictionary<string, Expression> Functions = new() 
     {
         { "log", new InvalidExpression() },
         { "sin", new InvalidExpression() },

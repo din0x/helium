@@ -115,18 +115,52 @@ public class Parser
 
     private Expression ParseImplicitMultipication()
     {
-        var left = ParseFunction();
+        var left = ParseAdvancedExpression();
 
         if (At().Type == TokenType.Symbol
             || At().Type == TokenType.Number
             || At().Type == TokenType.OpenParen)
         {
-            left = new BinaryExpression(BinaryOperator.Multiply, left, ParseFunction());
+            left = new BinaryExpression(BinaryOperator.Multiply, left, ParseAdvancedExpression());
         }
 
         return left;
     }
 
+    private Expression ParseAdvancedExpression()
+    {
+        if (At().Value == "log")
+        {
+            Eat();
+            Expression @base = new NumberLiteral(10);
+            if (At().Type == TokenType.Base)
+            {
+                Eat();
+                @base = ParsePrimary();
+            }
+            
+            var expr = ParseUnary();
+            
+            return new LogarithmicExpression(@base, expr);
+        }
+        if (At().Value == "ln")
+        {
+            Eat();
+            var expr = ParseUnary();
+            
+            return new LogarithmicExpression(new NumberLiteral(Math.E), expr);
+        }
+        if (At().Value == "lg")
+        {
+            Eat();
+            var expr = ParseUnary();
+    
+            return new LogarithmicExpression(new NumberLiteral(10), expr);
+        }
+        
+        return ParseFunction();
+    }
+    
     private Expression ParseFunction()
     {
         if (At().Type == TokenType.Symbol && Function.IsFunction(At().Value))
