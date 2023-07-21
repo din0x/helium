@@ -80,7 +80,7 @@ public class Lexer
         {
             if (at == '%')
             {
-                ResultLogger.LogWarning("Assuming '%' is referring to math.");
+                ResultLogger.LogWarning("Assuming '%' is referring to math");
             }
 
             return new Token(TokenType.Operator, Eat().ToString());

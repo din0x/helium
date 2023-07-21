@@ -4,6 +4,7 @@ var showTokens = false;
 var showAst = false;
 
 Console.ForegroundColor = ConsoleColor.Gray;
+Console.CancelKeyPress += (_, _) => {Console.ForegroundColor = ConsoleColor.Gray; };
 
 while (true)
 {
@@ -39,12 +40,6 @@ while (true)
     }
 
     var parser = new Parser(lexer.Tokens);
-    if (parser.Invalid)
-    {
-        ResultLogger.LogError("Invalid math expression.");
-        continue;
-    }
-
     if (showAst)
     {
         var settings = new JsonSerializerSettings()
@@ -55,6 +50,12 @@ while (true)
         Console.WriteLine();
         Console.WriteLine(JsonConvert.SerializeObject(parser.Expr, settings));
         Console.WriteLine();
+    }
+    
+    if (parser.Invalid)
+    {
+        ResultLogger.LogError("Invalid math expression");
+        continue;
     }
 
     try

@@ -58,7 +58,7 @@ public class Parser
 
     private Expression ParseMultiplicative()
     {
-        var left = ParsePow();
+        var left = ParseImplicitMultipication();
 
         while ((At().Value == "*" || At().Value == "/" || At().Value == "%") && NotEof)
         {
@@ -71,7 +71,7 @@ public class Parser
 
             var op = opmap[Eat().Value];
 
-            var right = ParsePow();
+            var right = ParseImplicitMultipication();
 
             left = new BinaryExpression(op, left, right);
         }
@@ -79,6 +79,20 @@ public class Parser
         return left;
     }
 
+    private Expression ParseImplicitMultipication()
+    {
+        var left = ParsePow();
+
+        if (At().Type == TokenType.Symbol
+            || At().Type == TokenType.Number
+            || At().Type == TokenType.OpenParen)
+        {
+            left = new BinaryExpression(BinaryOperator.Multiply, left, ParsePow());
+        }
+
+        return left;
+    }
+    
     private Expression ParsePow()
     {
         var left = ParseUnary();
@@ -98,7 +112,7 @@ public class Parser
     private Expression ParseUnary()
     {
         if (At().Value != "+" && At().Value != "-")
-            return ParseImplicitMultipication();
+            return ParseAdvancedExpression();
 
         var opmap = new Dictionary<string, UnaryOperator>()
         {
@@ -106,109 +120,64 @@ public class Parser
             { "-", UnaryOperator.Minus },
         };
         var op = opmap[Eat().Value];
-        var left = ParseImplicitMultipication();
+        var left = ParseAdvancedExpression();
 
         return new UnaryExpression(op, left);
     }
 
-    private Expression ParseImplicitMultipication()
-    {
-        var left = ParseAdvancedExpression();
-
-        if (At().Type == TokenType.Symbol
-            || At().Type == TokenType.Number
-            || At().Type == TokenType.OpenParen)
-        {
-            left = new BinaryExpression(BinaryOperator.Multiply, left, ParseAdvancedExpression());
-        }
-
-        return left;
-    }
-
     private Expression ParseAdvancedExpression()
     {
-        if (At().Value == "log")
+        if (At().Type != TokenType.Symbol || !(At().Value is "log" or "ln" or "lg" or "sin" or "cos" or "tan" or "cot" or "sec" or "csc"))
+            return ParseFactorial();
+        
+        var name = Eat().Value;
+        
+        if (name == "log")
         {
-            Eat();
             Expression @base = new NumberLiteral(10);
             if (At().Type == TokenType.Base)
             {
                 Eat();
                 @base = ParsePrimary();
             }
-            
+           
             var expr = ParseUnary();
             
             return new LogarithmicExpression(@base, expr);
         }
-        if (At().Value == "ln")
+        if (name == "ln")
         {
-            Eat();
             var expr = ParseUnary();
             
             return new LogarithmicExpression(new NumberLiteral(Math.E), expr);
         }
-        if (At().Value == "lg")
+        if (name == "lg")
         {
-            Eat();
             var expr = ParseUnary();
     
             return new LogarithmicExpression(new NumberLiteral(10), expr);
         }
-        
-        return ParseFunction();
-    }
-    
-    private Expression ParseFunction()
-    {
-        if (At().Type == TokenType.Symbol && Function.IsFunction(At().Value))
+        if (name is "sin" or "cos" or "tan" or "cot" or "sec" or "csc")
         {
-            var name = Eat().Value;
-
-            Expression? @base = null;
-
-            if (At().Type == TokenType.Base)
+            var map = new Dictionary<string, TrigonometricFunctionType>()
             {
-                Eat();
-                @base = ParsePrimary();
-            }
-
-            Expression? exp = null;
-            if (At().Value == "^")
-            {
-                Eat();
-                exp = ParsePrimary();
-            }
-
-            var args = new List<Expression>();
-            if (At().Type == TokenType.OpenParen)
-            {
-                Eat();
-                args.Add(ParseExpression());
-                while (At().Type == TokenType.Comma)
-                {
-                    Eat();
-                    args.Add(ParseExpression());
-                }
-                if (At().Type != TokenType.CloseParen)
-                    return new InvalidExpression();
-            }
-            else
-            {
-                args.Add(ParseExpression());
-            }
-
-            Expression fn = new Function(name, args.ToArray(), @base);
-
-            if (exp is not null)
-                fn = new BinaryExpression(BinaryOperator.Pow, fn, exp);
-
-            return fn;
+                { "sin", TrigonometricFunctionType.Sin },
+                { "cos", TrigonometricFunctionType.Cos },
+                { "tan", TrigonometricFunctionType.Tan },
+                { "cot", TrigonometricFunctionType.Cot },
+                { "sec", TrigonometricFunctionType.Sec },
+                { "csc", TrigonometricFunctionType.Csc },
+            };
+            
+            var type = map[name];
+            var expr = ParseUnary();
+            
+            return new TrigonometricExpression(type, expr);
         }
-
+        
         return ParseFactorial();
     }
-
+    
     private Expression ParseFactorial()
     {
         var expr = ParsePrimary();
@@ -224,17 +193,17 @@ public class Parser
 
     private Expression ParsePrimary()
     {
-        Expression result;
-
         if (At().Type == TokenType.Number)
         {
-            result = new NumberLiteral(double.Parse(Eat().Value));
+            return new NumberLiteral(double.Parse(Eat().Value));
         }
-        else if (At().Type == TokenType.Symbol)
+
+        if (At().Type == TokenType.Symbol)
         {
-            result = new Symbol(Eat().Value);
+            return new Symbol(Eat().Value);
         }
-        else if (At().Type == TokenType.OpenParen)
+
+        if (At().Type == TokenType.OpenParen)
         {
             Eat();
             var expr = ParseExpression();
@@ -243,25 +212,22 @@ public class Parser
                 return new InvalidExpression();
 
             Eat();
-            result = expr;
+            return expr;
         }
-        else if (At().Type == TokenType.Pipe)
+        
+        if (At().Type == TokenType.Pipe)
         {
             Eat();
             var expr = ParseExpression();
             if (At().Type != TokenType.Pipe)
                 return new InvalidExpression();
             Eat();
-            result = new AbsoluteValue(expr);
+            return new AbsoluteValue(expr);
         }
 
-        else
-        {
-            Invalid = true;
-            return new InvalidExpression();
-        }
-
-        return result;
+        Invalid = true;
+        Console.WriteLine(At().Value);
+        return new InvalidExpression();
     }
 
     private bool NotEof => _tokens.Count > 0 && _tokens[0].Type != TokenType.End;

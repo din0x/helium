@@ -22,6 +22,7 @@ internal static class ResultLogger
     private static void RawLog(string message, ConsoleColor color)
     {
         var previousColor = Console.ForegroundColor;
+        
         Console.ForegroundColor = color;
         Console.WriteLine(message);
         Console.ForegroundColor = previousColor;
