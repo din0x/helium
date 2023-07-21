@@ -131,6 +131,14 @@ public class Parser
             return ParseFactorial();
         
         var name = Eat().Value;
+        Expression? power = null;
+        Expression? result = null;
+        
+        if (At().Value == "^")
+        {
+            Eat();
+            power = ParseUnary();
+        }
         
         if (name == "log")
         {
@@ -143,19 +151,19 @@ public class Parser
            
             var expr = ParseUnary();
             
-            return new LogarithmicExpression(@base, expr);
+            result = new LogarithmicExpression(@base, expr);
         }
         if (name == "ln")
         {
             var expr = ParseUnary();
             
-            return new LogarithmicExpression(new NumberLiteral(Math.E), expr);
+            result = new LogarithmicExpression(new NumberLiteral(Math.E), expr);
         }
         if (name == "lg")
         {
             var expr = ParseUnary();
     
-            return new LogarithmicExpression(new NumberLiteral(10), expr);
+            result = new LogarithmicExpression(new NumberLiteral(10), expr);
         }
         if (name is "sin" or "cos" or "tan" or "cot" or "sec" or "csc")
         {
@@ -172,10 +180,13 @@ public class Parser
             var type = map[name];
             var expr = ParseUnary();
             
-            return new TrigonometricExpression(type, expr);
+            result = new TrigonometricExpression(type, expr);
         }
         
-        return ParseFactorial();
+        if (power is not null)
+            result = new BinaryExpression(BinaryOperator.Pow, result ?? throw new NotImplementedException(), power);
+        
+        return result ?? throw new NotImplementedException();
     }
     
     private Expression ParseFactorial()
