@@ -1,4 +1,4 @@
-﻿namespace Calculator;
+﻿namespace Calculator.Util;
 
 public class Token
 {

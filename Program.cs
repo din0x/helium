@@ -1,5 +1,4 @@
-﻿using Calculator;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 var showTokens = false;
 var showAst = false;

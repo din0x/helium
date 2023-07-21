@@ -1,6 +1,3 @@
-using System.Dynamic;
-using Calculator.Results;
-
 namespace Calculator.Expressions;
 
 public class LogarithmicExpression : Expression

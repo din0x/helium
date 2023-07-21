@@ -1,6 +1,4 @@
-﻿using Calculator.Results;
-
-namespace Calculator.Expressions;
+﻿namespace Calculator.Expressions;
 
 public class Symbol : Expression
 {

@@ -1,6 +1,4 @@
-﻿using Calculator.Results;
-
-namespace Calculator;
+﻿namespace Calculator;
 
 internal static class ResultLogger
 {

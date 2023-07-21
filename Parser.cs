@@ -1,6 +1,4 @@
-﻿using Calculator.Expressions;
-
-namespace Calculator;
+﻿namespace Calculator;
 
 public class Parser
 {
