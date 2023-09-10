@@ -1,0 +1,17 @@
+D:\Apps\Me\calculator\Helium\obj\Debug\net7.0\Helium.csproj.AssemblyReference.cache
+D:\Apps\Me\calculator\Helium\obj\Debug\net7.0\Helium.GeneratedMSBuildEditorConfig.editorconfig
+D:\Apps\Me\calculator\Helium\obj\Debug\net7.0\Helium.AssemblyInfoInputs.cache
+D:\Apps\Me\calculator\Helium\obj\Debug\net7.0\Helium.AssemblyInfo.cs
+D:\Apps\Me\calculator\Helium\obj\Debug\net7.0\Helium.csproj.CoreCompileInputs.cache
+D:\Apps\Me\calculator\Helium\bin\Debug\net7.0\Helium.exe
+D:\Apps\Me\calculator\Helium\bin\Debug\net7.0\Helium.deps.json
+D:\Apps\Me\calculator\Helium\bin\Debug\net7.0\Helium.runtimeconfig.json
+D:\Apps\Me\calculator\Helium\bin\Debug\net7.0\Helium.dll
+D:\Apps\Me\calculator\Helium\bin\Debug\net7.0\Helium.pdb
+D:\Apps\Me\calculator\Helium\obj\Debug\net7.0\Helium.dll
+D:\Apps\Me\calculator\Helium\obj\Debug\net7.0\refint\Helium.dll
+D:\Apps\Me\calculator\Helium\obj\Debug\net7.0\Helium.pdb
+D:\Apps\Me\calculator\Helium\obj\Debug\net7.0\Helium.genruntimeconfig.cache
+D:\Apps\Me\calculator\Helium\obj\Debug\net7.0\ref\Helium.dll
+D:\Apps\Me\calculator\Helium\bin\Debug\net7.0\Newtonsoft.Json.dll
+D:\Apps\Me\calculator\Helium\obj\Debug\net7.0\Helium.csproj.CopyComplete

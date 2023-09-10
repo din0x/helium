@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "6GFJiRE5sNHIcaIr8gkyN8ZesERuyt7Xlwxjxwfbj2tSisGhvwkLE4v8KebbMSgFeGQzQ6eHl/E3Z76SDWMgug==",
+  "success": true,
+  "projectFilePath": "D:\\Apps\\Me\\calculator\\Helium\\Helium.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\super\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
