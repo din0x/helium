@@ -6,7 +6,6 @@ Here are example expressions.
 2 + 2 * 2
 (2 + 2) * 2
 x^2
-
 ```
 #### Factorial
 You can also use factorial notation.
