@@ -1,5 +1,5 @@
 # Helium
-Helium is a calculator writen in C# that allows you to evaluate advanced math expression, including logarithms, exponents, trigonometric functions while keeping the order of operations.
+Helium is a calculator writen in C# that allows you to evaluate math expression, including logarithms, exponents, trigonometric functions while keeping the order of operations.
 # Examples
 Here are example expressions.
 ```
